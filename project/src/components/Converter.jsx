@@ -4,7 +4,20 @@ import "../App.css";
 export const Converter = () => {
   const [encryptionValue, setEncryptionValue] = useState("");
   const [decryptionValue, setDecryptionValue] = useState("");
-  const [selectLength, setSelectLength] = useState(1);
+  const [selectLength, setSelectLength] = useState([
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+  ]);
   const maxlength = 122;
   const minlength = 97;
   const Decryption = (data) => {
@@ -36,21 +49,34 @@ export const Converter = () => {
     setEncryptionValue(result);
   };
 
-  function handleChange(e) {
+  function encryptionChange(e) {
     setEncryptionValue(e.target.value);
     Decryption(e.target.value);
   }
 
-  function handleChange2(e) {
+  function decryptionChange(e) {
     setDecryptionValue(e.target.value);
     Encryption(e.target.value);
   }
+
+  function selectOptionLength(e) {
+    setSelectLength(e.target.value);
+  }
   return (
     <div className="grid-container">
+      <select onChange={selectOptionLength}>
+        {selectLength.map((data, index) => {
+          return (
+            <option key={index} value={data}>
+              {data}
+            </option>
+          );
+        })}
+      </select>
       <div className="topic-text">Encryption</div>
       <div className="topic-text">Decryption</div>
-      <textarea onChange={handleChange} value={encryptionValue}></textarea>
-      <textarea onChange={handleChange2} value={decryptionValue}></textarea>
+      <textarea onChange={encryptionChange} value={encryptionValue}></textarea>
+      <textarea onChange={decryptionChange} value={decryptionValue}></textarea>
     </div>
   );
 };
