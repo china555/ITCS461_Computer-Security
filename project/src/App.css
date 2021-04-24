@@ -81,6 +81,9 @@ textarea {
   justify-items: center;
 }
 
+.grid-full {
+  grid-template-columns: 50% 50%;
+}
 .topic-text {
   justify-items: self-start;
   text-align: start;

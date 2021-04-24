@@ -1,35 +1,22 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "../App.css";
 
 export const Converter = () => {
   const [encryptionValue, setEncryptionValue] = useState("");
   const [decryptionValue, setDecryptionValue] = useState("");
-  const [selectLength, setSelectLength] = useState([
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12,
-  ]);
+  const selectLength = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  const [select, setSelect] = useState();
   const maxlength = 122;
   const minlength = 97;
   const Decryption = (data) => {
     let result = "";
-
     for (let i = 0; i < data.length; i++) {
-      if (data[i].charCodeAt() + 3 > maxlength) {
+      if (data[i].charCodeAt() + select > maxlength) {
         result += String.fromCharCode(
-          96 + data[i].charCodeAt() - maxlength + 3
+          96 + data[i].charCodeAt() - maxlength + select
         );
       } else {
-        result += String.fromCharCode(data[i].charCodeAt() + 3);
+        result += String.fromCharCode(data[i].charCodeAt() + select);
       }
     }
     setDecryptionValue(result);
@@ -38,12 +25,12 @@ export const Converter = () => {
   const Encryption = (data) => {
     let result = "";
     for (let i = 0; i < data.length; i++) {
-      if (data[i].charCodeAt() - 3 < minlength) {
+      if (data[i].charCodeAt() - select < minlength) {
         result += String.fromCharCode(
-          123 + data[i].charCodeAt() - minlength - 3
+          123 + data[i].charCodeAt() - minlength - select
         );
       } else {
-        result += String.fromCharCode(data[i].charCodeAt() - 3);
+        result += String.fromCharCode(data[i].charCodeAt() - select);
       }
     }
     setEncryptionValue(result);
@@ -60,11 +47,17 @@ export const Converter = () => {
   }
 
   function selectOptionLength(e) {
-    setSelectLength(e.target.value);
+    setSelect(Number(e.target.value));
   }
+
+  useEffect(() => {
+    Decryption(encryptionValue);
+  }, [select]);
+
   return (
-    <div className="grid-container">
+    <div>
       <select onChange={selectOptionLength}>
+        <option>Select Length</option>
         {selectLength.map((data, index) => {
           return (
             <option key={index} value={data}>
@@ -73,10 +66,18 @@ export const Converter = () => {
           );
         })}
       </select>
-      <div className="topic-text">Encryption</div>
-      <div className="topic-text">Decryption</div>
-      <textarea onChange={encryptionChange} value={encryptionValue}></textarea>
-      <textarea onChange={decryptionChange} value={decryptionValue}></textarea>
+      <div className="grid-container">
+        <div className="topic-text">Encryption</div>
+        <div className="topic-text">Decryption</div>
+        <textarea
+          onChange={encryptionChange}
+          value={encryptionValue}
+        ></textarea>
+        <textarea
+          onChange={decryptionChange}
+          value={decryptionValue}
+        ></textarea>
+      </div>
     </div>
   );
 };
