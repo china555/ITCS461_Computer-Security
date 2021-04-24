@@ -56,16 +56,19 @@ export const Converter = () => {
 
   return (
     <div>
-      <select onChange={selectOptionLength}>
-        <option>Select Length</option>
-        {selectLength.map((data, index) => {
-          return (
-            <option key={index} value={data}>
-              {data}
-            </option>
-          );
-        })}
-      </select>
+      <div className="flex-container flex-container-center">
+        <div className="space">Key</div>
+        <select onChange={selectOptionLength}>
+          <option>Select Length</option>
+          {selectLength.map((data, index) => {
+            return (
+              <option key={index} value={data}>
+                {data}
+              </option>
+            );
+          })}
+        </select>
+      </div>
       <div className="grid-container">
         <div className="topic-text">Encryption</div>
         <div className="topic-text">Decryption</div>
