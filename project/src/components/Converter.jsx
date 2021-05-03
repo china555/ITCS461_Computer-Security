@@ -5,13 +5,17 @@ export const Converter = () => {
   const [encryptionValue, setEncryptionValue] = useState("");
   const [decryptionValue, setDecryptionValue] = useState("");
   const selectLength = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-  const [select, setSelect] = useState();
+  const [select, setSelect] = useState(0);
   const maxlength = 122;
   const minlength = 97;
+
   const Decryption = (data) => {
     let result = "";
     for (let i = 0; i < data.length; i++) {
-      if (data[i].charCodeAt() + select > maxlength) {
+      // case of space bar and full stop
+      if (data[i].charCodeAt() === 32 || data[i].charCodeAt() === 46) {
+        result += String.fromCharCode(data[i].charCodeAt());
+      } else if (data[i].charCodeAt() + select > maxlength) {
         result += String.fromCharCode(
           96 + data[i].charCodeAt() - maxlength + select
         );
@@ -25,7 +29,10 @@ export const Converter = () => {
   const Encryption = (data) => {
     let result = "";
     for (let i = 0; i < data.length; i++) {
-      if (data[i].charCodeAt() - select < minlength) {
+      // case of space bar and full stop
+      if (data[i].charCodeAt() === 32 || data[i].charCodeAt() === 46) {
+        result += String.fromCharCode(data[i].charCodeAt());
+      } else if (data[i].charCodeAt() - select < minlength) {
         result += String.fromCharCode(
           123 + data[i].charCodeAt() - minlength - select
         );
@@ -57,9 +64,9 @@ export const Converter = () => {
   return (
     <div>
       <div className="flex-container flex-container-center">
-        <div className="space">Key</div>
+        <div className="space">🔑</div>
         <select onChange={selectOptionLength}>
-          <option>Select Length</option>
+          <option>Select Your Key Length</option>
           {selectLength.map((data, index) => {
             return (
               <option key={index} value={data}>
